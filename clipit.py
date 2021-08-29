@@ -30,6 +30,8 @@ import kornia.augmentation as K
 import numpy as np
 import imageio
 
+from moviepy.editor import ImageSequenceClip
+
 from PIL import ImageFile, Image, PngImagePlugin
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -1015,35 +1017,16 @@ def do_video(args):
 
     length = 15 # Desired time of the video in seconds
 
-    frames = []
-    tqdm.write('Generating video...')
-    for i in range(init_frame,last_frame): #
-        frames.append(Image.open(f'./steps/frame_{i:04d}.png'))
+    frames = [f'./steps/frame_{i:04d}.png' for i in range(init_frame,last_frame)]
+    frames.sort()
 
     #fps = last_frame/10
     fps = np.clip(total_frames/length,min_fps,max_fps)
-
-    from subprocess import Popen, PIPE
+    clip = ImageSequenceClip(frames, fps = fps)
+    
     import re
     output_file = re.compile('\.png$').sub('.mp4', args.output)
-    p = Popen(['ffmpeg',
-               '-y',
-               '-f', 'image2pipe',
-               '-vcodec', 'png',
-               '-r', str(fps),
-               '-i',
-               '-',
-               '-vcodec', 'libx264',
-               '-r', str(fps),
-               '-pix_fmt', 'yuv420p',
-               '-crf', '17',
-               '-preset', 'veryslow',
-               '-metadata', f'comment={args.prompts}',
-               output_file], stdin=PIPE)
-    for im in tqdm(frames):
-        im.save(p.stdin, 'PNG')
-    p.stdin.close()
-    p.wait()
+    clip.write_videofile(output_file)
 
 # this dictionary is used for settings in the notebook
 global_clipit_settings = {}
