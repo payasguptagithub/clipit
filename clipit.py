@@ -1100,7 +1100,7 @@ def setup_parser():
     return vq_parser
 
 square_size = [144, 144]
-widescreen_size = [200, 112]  # at the small size this becomes 192,112
+widescreen_size = [160, 90]  # at the small size this becomes 192,112
 
 ####### PALETTE SECTION ##########
 
@@ -1275,8 +1275,8 @@ def process_args(vq_parser, namespace=None):
     }
     aspect_to_size_table = {
         'square': [150, 150],
-        'widescreen': [200, 112],
-        'portrait': [134, 166]
+        'widescreen': [160, 90],
+        'portrait': [128, 160]
     }
 
     if args.size is not None:
