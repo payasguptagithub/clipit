@@ -630,6 +630,7 @@ def do_init(args):
         seed = args.seed
     torch.manual_seed(seed)
     print('Using seed:', seed)
+    return seed
 
 
 # dreaded globals (for now)
