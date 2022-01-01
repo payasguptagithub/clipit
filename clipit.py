@@ -690,7 +690,7 @@ def checkin(args, iter, losses):
     info.add_text('comment', f'{args.prompts}')
     img = drawer.to_image()
     if cur_anim_index is None:
-        outfile = args.output
+        outfile = args.output + "_" + iter + ".png"
     else:
         outfile = anim_output_files[cur_anim_index]
     img.save(outfile, pnginfo=info)
@@ -1025,8 +1025,8 @@ def do_video(args):
     fps = np.clip(total_frames/length,min_fps,max_fps)
     clip = ImageSequenceClip(frames, fps = fps)
     
-    import re
-    output_file = re.compile('\.png$').sub('.mp4', args.output)
+    # import re
+    output_file = args.output + ".mp4" # re.compile('\.png$').sub('.mp4', args.output)
     clip.write_videofile(output_file)
 
 # this dictionary is used for settings in the notebook
@@ -1085,7 +1085,7 @@ def setup_parser():
     vq_parser.add_argument("-cutp", "--cut_power", type=float, help="Cut power", default=1., dest='cut_pow')
     vq_parser.add_argument("-sd",   "--seed", type=int, help="Seed", default=None, dest='seed')
     vq_parser.add_argument("-opt",  "--optimiser", type=str, help="Optimiser (Adam, AdamW, Adagrad, Adamax, DiffGrad, AdamP or RAdam)", default='Adam', dest='optimiser')
-    vq_parser.add_argument("-o",    "--output", type=str, help="Output file", default="output.png", dest='output')
+    vq_parser.add_argument("-o",    "--output", type=str, help="Output file", default="output", dest='output')
     vq_parser.add_argument("-vid",  "--video", type=bool, help="Create video frames?", default=False, dest='make_video')
     vq_parser.add_argument("-d",    "--deterministic", type=bool, help="Enable cudnn.deterministic?", default=False, dest='cudnn_determinism')
     vq_parser.add_argument("-cd",   "--use_clipdraw", type=bool, help="Use clipdraw", default=False, dest='use_clipdraw')
