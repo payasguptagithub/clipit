@@ -690,7 +690,7 @@ def checkin(args, iter, losses):
     info.add_text('comment', f'{args.prompts}')
     img = drawer.to_image()
     if cur_anim_index is None:
-        outfile = args.output + "_" + iter + ".png"
+        outfile = args.output + "_" + str(iter) + ".png"
     else:
         outfile = anim_output_files[cur_anim_index]
     img.save(outfile, pnginfo=info)
