@@ -693,7 +693,7 @@ def checkin(args, iter, losses):
         outfile = args.output + "_" + str(iter) + ".png"
     else:
         outfile = anim_output_files[cur_anim_index]
-    img.save(outfile, pnginfo=info)
+    img.save(outfile, pnginfo=info, dpi=(300,300))
     if cur_anim_index == len(anim_output_files) - 1:
         # save gif
         gif_output = make_gif(args, iter)
